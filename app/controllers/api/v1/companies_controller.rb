@@ -4,7 +4,8 @@ class Api::V1::CompaniesController < ApiController
     before_action :set_company, only: [:show, :update, :destroy ]
 
     def index 
-        @companies=Company.all
+        @companies=Company.accessible_by(current_ability)
+        # @companies=Company.all
         # @companies = current_user.companies
         render json: @companies,status: :ok
     end
@@ -14,8 +15,8 @@ class Api::V1::CompaniesController < ApiController
     end
 
     def create 
-        #@company =Company.new(company_params)
-            @company =current_user.companies.new(company_params)
+        @company =Company.new(company_params)
+            # @company =current_user.companies.new(company_params)
             if @company.save
                 render json: @company, status: :ok
             else
@@ -46,7 +47,7 @@ class Api::V1::CompaniesController < ApiController
 
     def set_company 
         @company=Company.find(params[:id])
-        @company = current_user.companies.find(params[:id])
+        # @company = current_user.companies.find(params[:id])
     rescue ActiveRecord::RecordNotFound => error
         render json: error.message,status: :unauthorized
     end
