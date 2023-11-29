@@ -8,7 +8,9 @@ class User < ApplicationRecord
   
   has_many :companies
 
-  before_create :set_user_role
+  #to set default values we have attribute method or self method 
+  attribute :role, :string, default:'admin'
+  # before_create :set_user_role
 
   ROLES = %w{super_admin admin manager editor collaborator}
 
@@ -21,9 +23,9 @@ class User < ApplicationRecord
       role == role_name
   end
 
-  def set_user_role
-    self.role='admin'
-  end
+  # def set_user_role
+  #   self.role='admin'
+  # end
 end
 
 # def super_admin?
