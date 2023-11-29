@@ -8,6 +8,8 @@ class User < ApplicationRecord
   
   has_many :companies
 
+  before_create :set_user_role
+
   ROLES = %w{super_admin admin manager editor collaborator}
 
   def jwt_payload
@@ -17,6 +19,10 @@ class User < ApplicationRecord
   ROLES.each do |role_name|
     define_method "#{role_name}?" do
       role == role_name
+  end
+
+  def set_user_role
+    self.role='admin'
   end
 end
 
