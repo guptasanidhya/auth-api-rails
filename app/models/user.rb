@@ -8,7 +8,33 @@ class User < ApplicationRecord
   
   has_many :companies
 
+  ROLES = %w{super_admin admin manager editor collaborator}
+
   def jwt_payload
     super.merge('foo' => 'bar')
   end
+
+  ROLES.each do |role_name|
+    define_method "#{role_name}?" do
+      role == role_name
+  end
+end
+
+# def super_admin?
+#   role=='super_admin'
+# end
+# def admin?
+#   role=='admin'
+# end
+# def manager?
+#   role=='manager'
+# end
+# def editor?
+#   role=='editor'
+# end
+# def collaborator?
+#   role=='collaborator'
+# end
+
+
 end
